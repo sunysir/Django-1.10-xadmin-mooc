@@ -1,13 +1,21 @@
 # _*_ encoding: utf-8 _*_
-from django.conf.urls import url
-
-from users.views import register
+from users.views import UserInfoView, UserMyCourseView, UserMyMessageView, UploadImageView, ResetPwView, \
+    ModifyEmailView, UserMyFavOrgView, UserMyFavCourseView, UserMyFavTeacherView
 
 __author__ = 'suny'
-__date__ = '2018/7/20 23:53'
+from django.conf.urls import url
 
+app_name = 'users'
+urlpatterns = [
+    url(r'userInfo/$', UserInfoView.as_view(), name='userInfo'),
+    url(r'userMyCourse/$', UserMyCourseView.as_view(), name='userMyCourse'),
+    url(r'userMyFavOrg/$', UserMyFavOrgView.as_view(), name='userMyFavOrg'),
+    url(r'userMyFavCourse/$', UserMyFavCourseView.as_view(), name='userMyFavCourse'),
+    url(r'userMyFavTeacher/$', UserMyFavTeacherView.as_view(), name='userMyFavTeacher'),
+    url(r'userMessage/$', UserMyMessageView.as_view(), name='userMessage'),
+    url(r'uploadImage/$', UploadImageView.as_view(), name='uploadImage'),
+    url(r'resetPw/$', ResetPwView.as_view(), name='resetPw'),
+    url(r'modifyEmail/$', ModifyEmailView.as_view(), name='modifyEmail'),
 
-# app_name = 'users'
-# urlpatterns = [
-#     url(r'^register/', register, name='register')
-# ]
+]
+

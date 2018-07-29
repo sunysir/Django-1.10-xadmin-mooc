@@ -24,20 +24,28 @@ class UserMessageAdmin(object):
     search_fields = ['name', 'detail']
 
 
-class CityDictAdmin(object):
-    list_display = ['name', 'detail', 'add_time']
-    list_filter = ['name', 'detail', 'add_time']
-    search_fields = ['name', 'detail']
 
 
 class UserCourseAdmin(object):
-    list_display = ['name', 'detail', 'add_time']
-    list_filter = ['name', 'detail', 'add_time']
-    search_fields = ['name', 'detail']
+    list_display = ['course', 'user']
+    list_filter = ['course', 'user']
+    search_fields = ['course', 'user']
+
+
+class UserCommentAdmin(object):
+    list_display = ['course', 'user']
+    list_filter = ['course', 'user']
+    search_fields = ['course', 'user']
+
+
+class UserMessageAdmin(object):
+    list_display = ['user', 'message', 'send_time', 'has_read']
+    list_filter = ['user', 'message', 'has_read']
+    search_fields = ['user', 'message', 'has_read']
 
 
 xadmin.site.register(UserAsk)
-xadmin.site.register(UserComment)
+xadmin.site.register(UserComment, UserCommentAdmin)
 xadmin.site.register(UserFav)
-xadmin.site.register(UserMessage)
-xadmin.site.register(UserCourse)
+xadmin.site.register(UserMessage, UserMessageAdmin)
+xadmin.site.register(UserCourse, UserCourseAdmin)

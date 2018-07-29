@@ -18,11 +18,20 @@ def generate_hash_code(MAX_LENTH=8):
         code += chars[random.randint(0, length)]
     return code
 
+def generate_captcha(MAX_LENTH=4):
+    code = ''
+    chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'
+    length = len(chars) - 1
+    for i in range(MAX_LENTH):
+        code += chars[random.randint(0, length)]
+    return code
 
 def send_register_email(email, send_type):
     email_verify = EmailVerifyRecord()
     email_verify.email = email
     email_verify.code = generate_hash_code()
+    if send_type == 'modify':
+        email_verify.code = generate_captcha()
     email_verify.send_type = send_type
     email_verify.save()
 
@@ -37,6 +46,12 @@ def send_register_email(email, send_type):
         title = '慕课网密码重置'
         body = '请点击链接完成注册 http://127.0.0.1:8000/reset/{0}'.format(email_verify.code)
         email_status = send_mail(title, body, EMAIL_HOST_USER, [email])
+
+    if send_type == 'modify':
+        title = '慕课网个人邮箱修改'
+        body = '邮箱验证码位{0}'.format(email_verify.code)
+        email_status = send_mail(title, body, EMAIL_HOST_USER, [email])
+        return email_status
 
     if email_status:
         pass

@@ -3,31 +3,37 @@ from datetime import datetime
 from django.db import models
 
 # Create your models here.
-from course.models import Course
 
 class CityDict(models.Model):
     name = models.CharField(max_length=100, verbose_name=u'城市名')
     detail = models.TextField(verbose_name=u'城市简介')
     add_time = models.DateTimeField(default=datetime.now, verbose_name=u'添加时间')
+
     class Meta:
         verbose_name = u'城市'
         verbose_name_plural = verbose_name
 
+    def __str__(self):
+        return self.name
+
 
 class CourseOrg(models.Model):
-    course = models.ForeignKey(Course)
+    city = models.ForeignKey(CityDict)
     name = models.CharField(max_length=100, verbose_name=u'机构名')
     detail = models.TextField(verbose_name=u'机构简介')
+    category = models.CharField(default='university', max_length=20, choices=(('private', '培训机构'), ('university', '高等院校')), verbose_name='机构类别')
     click_nums = models.IntegerField(default=0, verbose_name=u'点击数')
     image = models.ImageField(upload_to='org/%Y%m', verbose_name=u'机构封面')
     fav_num = models.IntegerField(default=0, verbose_name=u'收藏数')
     adress = models.CharField(max_length=100, verbose_name=u'机构地址')
     add_time = models.DateTimeField(default=datetime.now, verbose_name=u'添加时间')
-    city = models.ForeignKey(CityDict)
 
     class Meta:
         verbose_name = u'机构'
         verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.name
 
 
 class Teacher(models.Model):
@@ -47,3 +53,7 @@ class Teacher(models.Model):
     class Meta:
         verbose_name = u'教师'
         verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.name
+

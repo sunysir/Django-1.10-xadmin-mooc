@@ -4,7 +4,6 @@ from captcha.fields import CaptchaField
 from users.models import UserProfile
 
 __author__ = 'suny'
-__date__ = '2018/7/21 14:21'
 from django import forms
 
 
@@ -29,6 +28,28 @@ class ResetPwdForm(forms.Form):
     password2 = forms.CharField(required=True)
 
 
+class ModifyPwdForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['password']
+
+
+class ModifyEmailForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['email']
+
+
+class UserInfoForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['nick_name', 'birthday', 'gender', 'adress', 'mobile']
+
+
+class UploadImageForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['image']
 
 
 

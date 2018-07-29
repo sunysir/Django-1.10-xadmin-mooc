@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+
+{% block title %}课程详情 - 慕学在线网{% endblock %}
+{% block custom_bread %}
+    <section>
+        <div class="wp">
+            <div class="crumbs">
+                <ul>
+                    <li><a href="{% url 'index' %}">首页</a>></li>
+                    <li><a href="{% url 'course:course_list' %}">公开课程</a>></li>
+                    <li>课程详情</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block custom_content %}
+    <section>
+        <div class="wp">
+            <div class="groupPurchase_detail detail">
+                <div class="toppro">
+                    <div class="left">
+                        <div class="picbox">
+                            <div class="tb-booth tb-pic">
+                                <img width="440" height="445"
+                                     src="{{ course.image.url }}"
+                                     class="jqzoom"/>
+                            </div>
+
+                        </div>
+                        <div class="des">
+                            <h1 title="{{ course.name }}">{{ course.name }}</h1>
+                            <span class="key">{{ course.detail }}</span>
+                            <div class="prize">
+                                <span class="fl">难度：<i class="key">{{ course.get_degree_display }}</i></span>
+                                <span class="fr">学习人数：{{ course.students }}</span>
+                            </div>
+                            <ul class="parameter">
+                                <li><span
+                                        class="pram word3">时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;长：</span><span>{{ course.period }}分钟</span>
+                                </li>
+                                <li><span
+                                        class="pram word3">章&nbsp;节&nbsp;数：</span><span>{{ course.get_chapter_nums }}</span>
+                                </li>
+                                <li><span class="pram word3">课程类别：</span><span title="">{{ course.category }}</span>
+                                </li>
+                                <li class="piclist"><span class="pram word4">学习用户：</span>
+                                    {% for user_course in course.get_user_nums %}
+                                        <span class="pic"><img width="40" height="40"
+                                                               src="{{ user_course.user.image.url }}"/></span>
+                                    {% endfor %}
+                                </li>
+                            </ul>
+                            <div class="btns">
+                                <div class="btn colectgroupbtn" id="jsLeftBtn">
+                                    {% if has_fav_course %}已收藏{% else %}收藏{% endif %}
+                                </div>
+                                <div class="buy btn"><a style="color: white" href="{% url 'course:course_lesson' course.id %}">开始学习</a></div>
+                            </div>
+                        </div>
+                        <div class="group-share-box">
+                            <div class="bdsharebuttonbox"
+                                 data-text="{{ course.name }}"
+                                 data-desc="我在#{{ course.org }}#发现了"
+                                 data-comment=""
+                                 data-url="/group/groupdetail/15/">
+                                <span class="fl">分享到：</span>
+                                <a href="#" class="bds_more" data-cmd="more"></a>
+                                <a title="分享到QQ空间" href="#" class="bds_qzone" data-cmd="qzone"></a>
+                                <a title="分享到新浪微博" href="#" class="bds_tsina" data-cmd="tsina"></a>
+                                <a title="分享到腾讯微博" href="#" class="bds_tqq" data-cmd="tqq"></a>
+                                <a title="分享到人人网" href="#" class="bds_renren" data-cmd="renren"></a>
+                                <a title="分享到微信" href="#" class="bds_weixin" data-cmd="weixin"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="head">
+                            <h1>授课机构</h1>
+                            <p>世界名校，课程权威</p>
+                        </div>
+                        <div class="pic">
+                            <a href="{% url 'org:org_detail_home' course.org.id %}">
+                                <img width="150" height="80" src="{{ course.org.image.url }}"/>
+                            </a>
+                        </div>
+                        <a href="{% url 'org:org_detail_home' course.org.id %}">
+                            <h2 class="center" title="{{ course.org.name }}">{{ course.org.name }}</h2>
+                        </a>
+                        <div class="btn  notlogin" data-favid="14" id="jsRightBtn">
+                            {% if has_fav_org %}已收藏{% else %}收藏{% endif %}
+                        </div>
+                        <div class="clear">
+                            <ul>
+                                <li>
+                                    <span>课 &nbsp;程&nbsp; 数：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ course.org.course_set.count }}</span>
+                                </li>
+                                <li>
+                                    <span>教 &nbsp;师&nbsp; 数：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ course.org.teacher_set.count }}</span>
+                                </li>
+                                <li>所在地区：&nbsp;&nbsp;{{ course.org.city }}</li>
+                                <li>认&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;证&nbsp;:
+                                    &nbsp;&nbsp;
+                                    <img title="金牌机构" , src="/static/images/gold.png"/>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="wp">
+            <div class="list groupPurchase_detail_pro">
+                <div class="left layout">
+                    <div class="head">
+                        <ul class="tab_header">
+                            <li class="active">课程详情</li>
+                        </ul>
+                    </div>
+                    <div class="tab_cont tab_cont1">
+
+                        <h1>一、课程简介</h1>
+                        <p style="font-size: 15px">{{ course.detail }}</p>
+                        <br/><br/>
+                        <h1>二、课程讲师</h1>
+                        <p><img src="{{ course.teacher.image.url }}" title=""
+                                /></p>
+                        <p style="font-size: 15px">{{ course.teacher.name }}   {{ course.teacher.work_org }}   {{ course.teacher.work_postion }}</p>
+                        <br/><br/>
+                        <h1>三、适合人群</h1>
+                        <p style="font-size: 18px">
+                            1. 从事数据分析工作在职人员<br/>
+                            2. 金融、零售、电信、互联网等行业，非专业数据分析师业务人员<br/>
+                            3. 在校计算机、经济、管理、会计、营销等专业学生<br/>
+                            4. 对数据分析感兴趣的各界人士<br/>
+                        </p>
+                        <br/><br/>
+                        <h1>四、教学特色</h1>
+                        <p style="font-size: 18px">
+                            1.案例教学：从入门到精通，学会用简易的方法实现有效的数据分析目的<br/>
+                            2.实践主导：结合商业智能案例，将数据分析方法应用到多岗位、多行业、多领域中去<br/>
+                            3.学习辅导：现场多媒体教学、讲师答疑、攻克重难点、课后复习视频<br/>
+                            4.官方保证：优秀学员可以继续申请工信部权威结业证书<br/>
+                        </p>
+
+
+                    </div>
+                    <div class="tab_cont tab_cont2">
+                        <div class="comment">
+                            <div class="comenlist">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="right layout">
+                    <div class="head">相关课程推荐</div>
+                    <div class="group_recommend">
+                        {% for course in relate_courses %}
+                            <dl>
+                            <dt>
+                                <a target="_blank" href="{% url 'course:course_detail' course.id %}">
+                                    <img width="240" height="220" class="scrollLoading"
+                                         src="{{ course.image.url }}"/>
+                                </a>
+                            </dt>
+                            <dd>
+                                <a target="_blank" href="{% url 'course:course_detail' course.id %}"><h2> {{ course.name }}</h2></a>
+                                <span class="fl">学习时长：<i class="key">{{ course.period }}</i></span>
+                            </dd>
+                        </dl>
+                        {% endfor %}
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block custom_js %}
+<script type="text/javascript">
+    //收藏分享
+    function add_fav(current_elem, fav_id, fav_type) {
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "/org/add_fav/",
+            data: {'fav_id': fav_id, 'fav_type': fav_type},
+            async: true,
+            beforeSend: function (xhr, settings) {
+                xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+            },
+            success: function (data) {
+                if (data.status == 'fail') {
+                    if (data.msg == '用户未登录') {
+                        window.location.href = "{% url 'login' %}";
+                    } else {
+                        alert(data.msg)
+                    }
+
+                } else if (data.status == 'success') {
+                    current_elem.text(data.msg)
+                }
+            },
+        });
+    }
+
+    $('#jsLeftBtn').on('click', function () {
+        add_fav($(this), {{ course.id }}, 1);
+    });
+
+    $('#jsRightBtn').on('click', function () {
+        add_fav($(this), {{ course.org.id }}, 2);
+    });
+</script>
+{% endblock %}
+
+
